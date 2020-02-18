@@ -1,0 +1,54 @@
+1).Define the line counter into a new value, for example:
+#line 12345
+hello,world
+
+once you try to compile the cpp file with contains this, it will give error message about line 12345.
+Bison and flex will report line and column in .yy and .l file
+
+
+2).__LINE__: keep tracking the line in which error happened
+   __FILE__: keep tracking the file in which error happened
+
+   void report(int line)
+   {
+     std::cout << "Error at line " << line << std::endl;
+     std::cout << "Error in func " << __func__ << std::endl;
+   }
+
+   int main(){
+     report(__LINE__);
+     std::cout << "Error in file " << __FILE__ << std::endl;
+    }
+
+
+  output:
+  Error at line 13
+  Error in func report
+  Error in file pre.cpp
+
+
+3).#define GLUE(a,b) std::a##b
+if you call GLUE(1,2) the function will combine 1 and 2 into 12.
+
+for example:
+int main(){
+  GLUE(c,out) << "Hello\n";
+}
+
+if you try to execute the file, the compile process will become:
+int main(){
+  std::cout << "Hello\n";
+}
+GLUE macro combines c and out into cout and it becomes a c++ syntax to output a message.
+
+
+4).g++ something.cpp -E will terminal output for file execution process, then if you want to output into
+a file, then you can do ./a.out 1> pre.out 2> pre.err then there will have two output file one contains
+terminal output and the other one contains error message.
+
+
+5)the program output is a+b*c, so it seems like #x just let the compiler print out variable name rather than its
+  value
+
+
+6).g++ -DOUTMODE=1 labTest2.cpp -o labTest2 
